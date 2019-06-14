@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { CSSTransition } from "react-transition-group";
 
 const useStyles = makeStyles({
   Card: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles({
     color: "#ffffff",
     borderRadius: "8px",
     boxShadow: "5px 2.5px 20px 0 rgba(46, 61, 73, 0.5)",
-    transition: "transform 0.4s"
+    transition: "transform 400ms"
   },
   "@global": {
     ".open": {
@@ -41,11 +42,17 @@ export default function Card(props) {
   };
 
   return (
-    <li
-      className={`${classes.Card} ${isOpen ? "open" : ""}`}
-      onClick={handleClick}
+    <CSSTransition
+      in={isOpen}
+      timeout={400}
+      classNames={{
+        enter: "open",
+        enterDone: "open"
+      }}
     >
-      <i className={`fa fa-${props.cardFace}`} />
-    </li>
+      <li className={classes.Card} onClick={handleClick}>
+        <i className={`fa fa-${props.cardFace}`} />
+      </li>
+    </CSSTransition>
   );
 }
