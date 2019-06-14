@@ -63,7 +63,7 @@ export default function Card(props) {
           enterActive: props.animate
         }}
       >
-        <li className={classes.Card} onClick={handleClick}>
+        <li className={classes.Card} onClick={isOpen ? null : handleClick}>
           <i className={`fa fa-${props.cardFace}`} />
         </li>
       </CSSTransition>
