@@ -14,20 +14,19 @@ const useStyles = makeStyles({
     fontSize: 0,
     cursor: "pointer",
     background: "#2e3d49",
-    color: "#ffffff",
     borderRadius: "8px",
     boxShadow: "5px 2.5px 20px 0 rgba(46, 61, 73, 0.5)",
-    transition: "transform 400ms"
+    transition: "all 400ms"
   },
   "@global": {
     ".open": {
-      fontSize: "2rem",
-      backgroundColor: "#02b3e4",
       transform: "rotateY(180deg)",
-      transformStyle: "preserve-3d",
-      "& i": {
-        transform: "rotateY(-180deg)"
-      }
+      backgroundColor: "#02b3e4"
+    },
+    ".open-done": {
+      fontSize: "2rem",
+      color: "#ffffff",
+      backgroundColor: "#02b3e4"
     }
   }
 });
@@ -36,6 +35,7 @@ export default function Card(props) {
   const classes = useStyles();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isAnimate, setIsAnimate] = useState(false);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -47,12 +47,23 @@ export default function Card(props) {
       timeout={400}
       classNames={{
         enter: "open",
-        enterDone: "open"
+        enterDone: "open-done"
       }}
+      onEntered={() => setIsAnimate(true)}
+      onExited={() => setIsAnimate(false)}
     >
-      <li className={classes.Card} onClick={handleClick}>
-        <i className={`fa fa-${props.cardFace}`} />
-      </li>
+      <CSSTransition
+        in={isAnimate}
+        timeout={1000}
+        exit={false}
+        classNames={{
+          enterActive: props.animate
+        }}
+      >
+        <li className={classes.Card} onClick={handleClick}>
+          <i className={`fa fa-${props.cardFace}`} />
+        </li>
+      </CSSTransition>
     </CSSTransition>
   );
 }

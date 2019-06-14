@@ -43,10 +43,15 @@ const cardFaces = [
 export default function CardBoard() {
   const classes = useStyles();
 
+  const testAnimation = {
+    matched: "animated rubberBand",
+    unmatched: "animated wiggle"
+  };
+
   return (
     <ul className={classes.CardBoard}>
       {cardFaces.map((face, index) => (
-        <Card key={index} cardFace={face} />
+        <Card key={index} cardFace={face} animate={testAnimation.matched} />
       ))}
     </ul>
   );

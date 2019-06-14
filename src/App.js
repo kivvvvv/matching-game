@@ -5,6 +5,7 @@ import CardBoard from "./CardBoard";
 
 import geometry2 from "./img/geometry2.png";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import "animate.css/animate.css";
 
 const useStyles = makeStyles({
   App: {
