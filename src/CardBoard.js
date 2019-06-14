@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import cardFaces from "./cardFaces";
@@ -30,10 +30,42 @@ export default function CardBoard() {
     unmatched: "animated wobble"
   };
 
+  const [cardsOnBoard, setCardsOnBoard] = useState(cardFaces);
+  const [matchingCard, setMatchingCard] = useState(new Map());
+  const [matchedCardIndex, setMatchedCardIndex] = useState(new Set());
+
+  const handleOpenCardClick = (currentFace, currentIndex) => {
+    if (matchingCard.size === 0) {
+      setMatchingCard(matchingCard.set(currentFace, currentIndex));
+    } else {
+      if (matchingCard.has(currentFace)) {
+        setMatchedCardIndex(
+          matchedCardIndex.add(matchingCard.get(currentFace)).add(currentIndex)
+        );
+        console.log(`${matchingCard.get(currentFace)} matched ${currentIndex}`);
+      } else {
+        console.log(
+          `${matchingCard.entries().next().value[1]} unmatched ${currentIndex}`
+        );
+      }
+      setMatchingCard(new Map());
+    }
+    console.log(matchingCard);
+    console.log(matchedCardIndex);
+  };
+
   return (
     <ul className={classes.CardBoard}>
-      {cardFaces.map((face, index) => (
-        <Card key={index} cardFace={face} animate={testAnimation.matched} />
+      {cardsOnBoard.map((face, index) => (
+        <Card
+          key={index}
+          index={index}
+          cardFace={face}
+          animate={testAnimation.matched}
+          onOpenCardClick={
+            matchedCardIndex.has(index) ? null : handleOpenCardClick
+          }
+        />
       ))}
     </ul>
   );

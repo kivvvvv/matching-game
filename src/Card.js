@@ -38,7 +38,10 @@ export default function Card(props) {
   const [isAnimate, setIsAnimate] = useState(false);
 
   const handleClick = () => {
-    setIsOpen(!isOpen);
+    if (props.onOpenCardClick) {
+      setIsOpen(!isOpen);
+      props.onOpenCardClick(props.cardFace, props.index);
+    }
   };
 
   return (
