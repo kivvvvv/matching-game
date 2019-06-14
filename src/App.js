@@ -1,7 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+import CardBoard from "./CardBoard";
+
 import geometry2 from "./img/geometry2.png";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const useStyles = makeStyles({
   App: {
@@ -37,7 +40,9 @@ export default function App() {
         <header className={classes.header}>
           <h1>Matching Game</h1>
         </header>
-        Never feel the sand beneath my feet
+        <div>
+          <CardBoard />
+        </div>
       </main>
     </div>
   );
