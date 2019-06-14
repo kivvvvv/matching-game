@@ -17,6 +17,7 @@ const useStyles = makeStyles({
   },
   main: {
     width: "100%",
+    height: "100%",
     maxWidth: "624px",
     display: "flex",
     flexDirection: "column",
@@ -40,9 +41,7 @@ export default function App() {
         <header className={classes.header}>
           <h1>Matching Game</h1>
         </header>
-        <div>
-          <CardBoard />
-        </div>
+        <CardBoard />
       </main>
     </div>
   );
