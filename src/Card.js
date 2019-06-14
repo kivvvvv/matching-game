@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -23,7 +23,10 @@ const useStyles = makeStyles({
       fontSize: "2rem",
       backgroundColor: "#02b3e4",
       transform: "rotateY(180deg)",
-      transformStyle: "preserve-3d"
+      transformStyle: "preserve-3d",
+      "& i": {
+        transform: "rotateY(-180deg)"
+      }
     }
   }
 });
@@ -31,8 +34,17 @@ const useStyles = makeStyles({
 export default function Card(props) {
   const classes = useStyles();
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <li className={classes.Card}>
+    <li
+      className={`${classes.Card} ${isOpen ? "open" : ""}`}
+      onClick={handleClick}
+    >
       <i className={`fa fa-${props.cardFace}`} />
     </li>
   );
