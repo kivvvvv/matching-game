@@ -30,13 +30,12 @@ export default function CardBoard() {
     unmatched: "animated wobble"
   };
 
-  const [cardsOnBoard, setCardsOnBoard] = useState(cardFaces);
   const [matchingCard, setMatchingCard] = useState(new Map());
   const [matchedCardIndex, setMatchedCardIndex] = useState(new Set());
 
-  const handleOpenCardClick = (currentFace, currentIndex) => {
+  const handleOpenCardClick = (currentIndex, currentFace) => {
     if (matchingCard.size === 0) {
-      setMatchingCard(matchingCard.set(currentFace, currentIndex));
+      setMatchingCard(new Map(matchingCard).set(currentIndex, currentFace));
     } else {
       if (matchingCard.has(currentFace)) {
         setMatchedCardIndex(
@@ -54,17 +53,20 @@ export default function CardBoard() {
     console.log(matchedCardIndex);
   };
 
+  console.log(matchingCard);
+  console.log(matchedCardIndex);
+
   return (
     <ul className={classes.CardBoard}>
-      {cardsOnBoard.map((face, index) => (
+      {cardFaces.map((face, index) => (
         <Card
           key={index}
-          index={index}
           cardFace={face}
+          cardIndex={index}
           animate={testAnimation.matched}
-          onOpenCardClick={
-            matchedCardIndex.has(index) ? null : handleOpenCardClick
-          }
+          isCardOpened={matchingCard.has(index)}
+          isCardMatched={null}
+          onOpenCardClick={handleOpenCardClick}
         />
       ))}
     </ul>
