@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+import cardFaces from "./cardFaces";
 import Card from "./Card";
 
 const useStyles = makeStyles({
@@ -21,31 +22,12 @@ const useStyles = makeStyles({
   }
 });
 
-const cardFaces = [
-  "gem",
-  "gem",
-  "paper-plane",
-  "paper-plane",
-  "anchor",
-  "anchor",
-  "bolt",
-  "bolt",
-  "cube",
-  "cube",
-  "leaf",
-  "leaf",
-  "bicycle",
-  "bicycle",
-  "bomb",
-  "bomb"
-];
-
 export default function CardBoard() {
   const classes = useStyles();
 
   const testAnimation = {
     matched: "animated rubberBand",
-    unmatched: "animated wiggle"
+    unmatched: "animated wobble"
   };
 
   return (
