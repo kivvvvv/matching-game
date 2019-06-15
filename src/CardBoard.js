@@ -25,36 +25,38 @@ const useStyles = makeStyles({
 export default function CardBoard() {
   const classes = useStyles();
 
-  const testAnimation = {
-    matched: "animated rubberBand",
-    unmatched: "animated wobble"
-  };
-
+  // [cardIndex, cardFace]
   const [matchingCard, setMatchingCard] = useState(new Map());
+  // [cardIndex]
   const [matchedCardIndex, setMatchedCardIndex] = useState(new Set());
+  // [cardIndex]
+  const [unmatchedCardIndex, setUnmatchedCardIndex] = useState(new Set());
+  const [animation, setAnimation] = useState(null);
 
   const handleOpenCardClick = (currentIndex, currentFace) => {
-    if (matchingCard.size === 0) {
-      setMatchingCard(new Map(matchingCard).set(currentIndex, currentFace));
-    } else {
-      if (matchingCard.has(currentFace)) {
-        setMatchedCardIndex(
-          matchedCardIndex.add(matchingCard.get(currentFace)).add(currentIndex)
-        );
-        console.log(`${matchingCard.get(currentFace)} matched ${currentIndex}`);
-      } else {
-        console.log(
-          `${matchingCard.entries().next().value[1]} unmatched ${currentIndex}`
-        );
-      }
-      setMatchingCard(new Map());
-    }
-    console.log(matchingCard);
-    console.log(matchedCardIndex);
-  };
+    setMatchingCard(prevMatchingCard => {
+      return new Map(prevMatchingCard).set(currentIndex, currentFace);
+    });
 
-  console.log(matchingCard);
-  console.log(matchedCardIndex);
+    if (matchingCard.size > 0) {
+      if (matchingCard.entries().next().value[1] === currentFace) {
+        setMatchedCardIndex(prevMatchedCardIndex => {
+          return new Set(prevMatchedCardIndex)
+            .add(matchingCard.entries().next().value[0])
+            .add(currentIndex);
+        });
+        setAnimation("match");
+      } else {
+        // define unmatched
+        setUnmatchedCardIndex(prevUnmatchedCardIndex => {
+          return new Set(prevUnmatchedCardIndex)
+            .add(matchingCard.entries().next().value[0])
+            .add(currentIndex);
+        });
+        setAnimation("unmatch");
+      }
+    }
+  };
 
   return (
     <ul className={classes.CardBoard}>
@@ -63,9 +65,11 @@ export default function CardBoard() {
           key={index}
           cardFace={face}
           cardIndex={index}
-          animate={testAnimation.matched}
-          isCardOpened={matchingCard.has(index)}
-          isCardMatched={null}
+          animation={
+            matchedCardIndex.has(index) || unmatchedCardIndex.has(index)
+              ? animation
+              : null
+          }
           onOpenCardClick={handleOpenCardClick}
         />
       ))}

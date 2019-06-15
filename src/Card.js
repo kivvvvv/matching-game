@@ -33,38 +33,41 @@ const useStyles = makeStyles({
 });
 
 export default function Card(props) {
-  console.log(props.isCardOpened);
   const classes = useStyles();
 
-  const [isAnimate, setIsAnimate] = useState(false);
+  const [cardDisplayedAction, setCardDisplayedAction] = useState("close");
 
-  const handleClick = () => {
-    console.log(`This ${props.cardFace} at ${props.cardIndex} is clicked`);
-    props.onOpenCardClick(props.cardIndex, props.cardFace);
+  const handleOpenClick = () => {
+    setCardDisplayedAction("open");
   };
 
   return (
     <CSSTransition
-      in={props.isCardOpened}
+      in={cardDisplayedAction === "open"}
       timeout={400}
       classNames={{
         enter: "open",
         enterDone: "open-done"
       }}
-      onExited={() => setIsAnimate(false)}
+      onEntered={() => props.onOpenCardClick(props.cardIndex, props.cardFace)}
     >
       <CSSTransition
-        in={isAnimate}
+        in={Boolean(props.animation)}
         timeout={1000}
         exit={false}
         classNames={{
-          enterActive: props.animate
+          enterActive:
+            props.animation === "match"
+              ? "animated rubberBand"
+              : "animated wobble"
+        }}
+        onEntered={() => {
+          if (props.animation === "unmatch") {
+            setCardDisplayedAction("close");
+          }
         }}
       >
-        <li
-          className={classes.Card}
-          onClick={props.isCardOpened ? null : handleClick}
-        >
+        <li className={classes.Card} onClick={handleOpenClick}>
           <i className={`fa fa-${props.cardFace}`} />
         </li>
       </CSSTransition>
