@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import cardFaces from "./cardFaces";
 import Card from "./Card";
 
 const useStyles = makeStyles({
@@ -22,54 +21,87 @@ const useStyles = makeStyles({
   }
 });
 
-export default function CardBoard() {
+export default function CardBoard(props) {
   const classes = useStyles();
 
-  // [cardIndex, cardFace]
-  const [matchingCard, setMatchingCard] = useState(new Map());
-  // [cardIndex]
-  const [matchedCardIndex, setMatchedCardIndex] = useState(new Set());
-  // [cardIndex]
-  const [unmatchedCardIndex, setUnmatchedCardIndex] = useState(new Set());
-  const [animation, setAnimation] = useState(null);
+  const [openedCardIndex, setOpenedCardIndex] = useState(new Set());
+  console.log("openedCardIndex: ", JSON.stringify(Array.from(openedCardIndex)));
+  const [solvedCardIndex, setSolvedCardIndex] = useState(new Set());
+  console.log("solvedCardIndex: ", JSON.stringify(Array.from(solvedCardIndex)));
+  const [mismatchCardIndex, setMisMatchCardIndex] = useState(new Set());
 
-  const handleOpenCardClick = (currentIndex, currentFace) => {
-    setMatchingCard(prevMatchingCard => {
-      return new Map(prevMatchingCard).set(currentIndex, currentFace);
+  const isCardMatch = cardIndex => {
+    const currentCard = props.cards[cardIndex];
+    const openedCard = props.cards[openedCardIndex.values().next().value];
+    console.log(currentCard, openedCard);
+    return currentCard === openedCard;
+  };
+
+  const handleOpenCardClick = cardIndex => {
+    setOpenedCardIndex(prevOpenedCardIndex => {
+      return new Set(prevOpenedCardIndex).add(cardIndex);
     });
-
-    if (matchingCard.size > 0) {
-      if (matchingCard.entries().next().value[1] === currentFace) {
-        setMatchedCardIndex(prevMatchedCardIndex => {
-          return new Set(prevMatchedCardIndex)
-            .add(matchingCard.entries().next().value[0])
-            .add(currentIndex);
-        });
-        setAnimation("match");
+    if (openedCardIndex.size === 1) {
+      if (isCardMatch(cardIndex)) {
+        Promise.resolve()
+          .then(() => {
+            return new Promise(resolve => {
+              setTimeout(() => {
+                setSolvedCardIndex(prevSolvedCardIndex => {
+                  return new Set(prevSolvedCardIndex)
+                    .add(openedCardIndex.values().next().value)
+                    .add(cardIndex);
+                });
+                resolve();
+              }, 400);
+            });
+          })
+          .then(() => {
+            setTimeout(() => {
+              setOpenedCardIndex(new Set());
+            }, 1000);
+          });
       } else {
-        // define unmatched
-        setUnmatchedCardIndex(prevUnmatchedCardIndex => {
-          return new Set(prevUnmatchedCardIndex)
-            .add(matchingCard.entries().next().value[0])
-            .add(currentIndex);
-        });
-        setAnimation("unmatch");
+        Promise.resolve()
+          .then(() => {
+            return new Promise(resolve => {
+              setTimeout(() => {
+                setMisMatchCardIndex(
+                  new Set()
+                    .add(openedCardIndex.values().next().value)
+                    .add(cardIndex)
+                );
+                resolve();
+              }, 450);
+            });
+          })
+          .then(() => {
+            return new Promise(resolve => {
+              setTimeout(() => {
+                setMisMatchCardIndex(new Set());
+                resolve();
+              }, 1050);
+            });
+          })
+          .then(() => {
+            setTimeout(() => {
+              setOpenedCardIndex(new Set());
+            }, 50);
+          });
       }
     }
   };
 
   return (
     <ul className={classes.CardBoard}>
-      {cardFaces.map((face, index) => (
+      {props.cards.map((card, cardIndex) => (
         <Card
-          key={index}
-          cardFace={face}
-          cardIndex={index}
-          animation={
-            matchedCardIndex.has(index) || unmatchedCardIndex.has(index)
-              ? animation
-              : null
-          }
+          key={cardIndex}
+          cardIndex={cardIndex}
+          cardFace={card}
+          isCardOpened={openedCardIndex.has(cardIndex)}
+          isCardSolved={solvedCardIndex.has(cardIndex)}
+          isCardMismatch={mismatchCardIndex.has(cardIndex)}
           onOpenCardClick={handleOpenCardClick}
         />
       ))}
