@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+import ScorePanel from "./ScorePanel";
 import CardBoard from "./CardBoard";
 import cardFaces from "./cardFaces";
 
@@ -10,6 +11,7 @@ import "animate.css/animate.css";
 
 const useStyles = makeStyles({
   App: {
+    fontFamily: '"Coda", cursive',
     width: "100vw",
     height: "100vh",
     display: "flex",
@@ -45,6 +47,7 @@ export default function App() {
         <header className={classes.header}>
           <h1>Matching Game</h1>
         </header>
+        <ScorePanel />
         <CardBoard cards={cards} />
       </main>
     </div>
