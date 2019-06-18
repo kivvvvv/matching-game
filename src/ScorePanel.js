@@ -39,7 +39,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ScorePanel() {
+export default function ScorePanel(props) {
   const classes = useStyles();
 
   const [activeTimerMachine, setActiveTimerMachine] = useState(false);
@@ -51,9 +51,9 @@ export default function ScorePanel() {
   return (
     <div className={classes.ScorePanel}>
       <ul className={classes.star}>
-        <Star />
-        <Star />
-        <Star />
+        {props.stars.map((star, starIndex) => (
+          <i key={starIndex} className={star} />
+        ))}
       </ul>
       <div className={classes.moves}>
         <span>13</span> Moves

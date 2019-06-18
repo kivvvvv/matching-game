@@ -40,6 +40,19 @@ export default function App() {
   const classes = useStyles();
 
   const [cards, setCards] = useState(cardFaces);
+  const [matchCount, setMatchCount] = useState(0);
+  const [mismatchCount, setMissMatchCount] = useState(0);
+
+  const rateStartScorePanel = () => {
+    const goodStarIconClass = "fas fa-star";
+    const badStarIconClass = "far fa-star";
+
+    if (mismatchCount < 5)
+      return [goodStarIconClass, goodStarIconClass, goodStarIconClass];
+    else if (mismatchCount >= 5 && mismatchCount <= 10)
+      return [goodStarIconClass, goodStarIconClass, badStarIconClass];
+    else return [goodStarIconClass, badStarIconClass, badStarIconClass];
+  };
 
   return (
     <div className={classes.App}>
@@ -47,8 +60,12 @@ export default function App() {
         <header className={classes.header}>
           <h1>Matching Game</h1>
         </header>
-        <ScorePanel />
-        <CardBoard cards={cards} />
+        <ScorePanel stars={rateStartScorePanel()} />
+        <CardBoard
+          cards={cards}
+          onSetMatchCount={setMatchCount}
+          onSetMissMatchCount={setMissMatchCount}
+        />
       </main>
     </div>
   );

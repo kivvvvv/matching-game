@@ -41,8 +41,11 @@ export default function CardBoard(props) {
     setOpenedCardIndex(prevOpenedCardIndex => {
       return new Set(prevOpenedCardIndex).add(cardIndex);
     });
+    // Check if at least one card is opened then do the match
     if (openedCardIndex.size === 1) {
       if (isCardMatch(cardIndex)) {
+        props.onSetMatchCount(prevMatchCount => prevMatchCount + 1);
+
         Promise.resolve()
           .then(() => {
             return new Promise(resolve => {
@@ -62,6 +65,8 @@ export default function CardBoard(props) {
             }, 1000);
           });
       } else {
+        props.onSetMissMatchCount(prevMissMatchCount => prevMissMatchCount + 1);
+
         Promise.resolve()
           .then(() => {
             return new Promise(resolve => {
