@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import TimerMachine from "react-timer-machine";
+import moment from "moment";
+import momentDurationFormatSetup from "moment-duration-format";
 
 import Star from "./Star";
+
+momentDurationFormatSetup(moment);
 
 const useStyles = makeStyles({
   ScorePanel: {
@@ -37,6 +42,12 @@ const useStyles = makeStyles({
 export default function ScorePanel() {
   const classes = useStyles();
 
+  const [activeTimerMachine, setActiveTimerMachine] = useState(false);
+
+  useEffect(() => {
+    setActiveTimerMachine(true);
+  }, []);
+
   return (
     <div className={classes.ScorePanel}>
       <ul className={classes.star}>
@@ -47,7 +58,33 @@ export default function ScorePanel() {
       <div className={classes.moves}>
         <span>13</span> Moves
       </div>
-      <div className={classes.timer}>00:00:00</div>
+      <div className={classes.timer}>
+        <TimerMachine
+          timeStart={0}
+          timeEnd={3539999}
+          started={activeTimerMachine}
+          paused={false}
+          formatTimer={(time, ms) =>
+            moment.duration(ms, "milliseconds").format("h:mm:ss")
+          }
+          onStart={time =>
+            console.info(`Timer started: ${JSON.stringify(time)}`)
+          }
+          onStop={time =>
+            console.info(`Timer stopped: ${JSON.stringify(time)}`)
+          }
+          onTick={time => console.info(`Timer ticked: ${JSON.stringify(time)}`)}
+          onPause={time =>
+            console.info(`Timer paused: ${JSON.stringify(time)}`)
+          }
+          onResume={time =>
+            console.info(`Timer resumed: ${JSON.stringify(time)}`)
+          }
+          onComplete={time =>
+            console.info(`Timer completed: ${JSON.stringify(time)}`)
+          }
+        />
+      </div>
       <div className={classes.restart}>
         <i className="fa fa-redo" />
       </div>
