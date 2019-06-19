@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ScorePanel from "./ScorePanel";
@@ -39,10 +39,27 @@ const useStyles = makeStyles({
 export default function App() {
   const classes = useStyles();
 
+  const [cards, setCards] = useState(cardFaces);
   const [matchCount, setMatchCount] = useState(0);
   const [mismatchCount, setMissMatchCount] = useState(0);
   const [moveCount, setMoveCount] = useState(0);
   const [isGameStarted, setIsGameStarted] = useState(false);
+
+  useEffect(() => {
+    setCards(prevCards => {
+      let unShuffleCards = [...prevCards];
+      shuffleArray(unShuffleCards);
+      return unShuffleCards;
+    });
+  }, [isGameStarted]);
+
+  const shuffleArray = array => {
+    // From https://stackoverflow.com/questions/2450954
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  };
 
   const rateStartScorePanel = () => {
     const goodStarIconClass = "fas fa-star";
@@ -77,7 +94,7 @@ export default function App() {
           onSetIsGameStarted={setIsGameStarted}
         />
         <CardBoard
-          cards={cardFaces}
+          cards={cards}
           onSetMatchCount={setMatchCount}
           onSetMissMatchCount={setMissMatchCount}
           onSetMoveCount={setMoveCount}
