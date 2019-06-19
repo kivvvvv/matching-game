@@ -36,6 +36,7 @@ const useStyles = makeStyles({
     textAlign: "center"
   },
   restart: {
+    visibility: props => (props.isIntro ? "hidden" : "visible"),
     flexBasis: "30%",
     textAlign: "right",
     cursor: "pointer"
@@ -43,13 +44,13 @@ const useStyles = makeStyles({
 });
 
 export default function ScorePanel(props) {
-  const classes = useStyles();
-
-  const endMatchCount = 8;
-
   const [activeTimerMachine, setActiveTimerMachine] = useState(false);
   const [timestamp, setTimestamp] = useState(null);
   const [isIntro, setIsIntro] = useState(true);
+
+  const endMatchCount = 8;
+
+  const classes = useStyles({ isIntro: isIntro });
 
   useEffect(() => {
     if (!props.isGameStarted) {
