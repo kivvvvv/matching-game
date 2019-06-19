@@ -120,13 +120,10 @@ export default function ScorePanel(props) {
         });
       })
       .then(() => {
+        props.onResetClick();
         setActiveTimerMachine(false);
         setTimestamp(null);
         setIsIntro(true);
-        props.onSetMatchCount(0);
-        props.onSetMissMatchCount(0);
-        props.onSetMoveCount(0);
-        props.onSetIsGameStarted(false);
       });
   };
 
