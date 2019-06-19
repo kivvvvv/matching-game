@@ -1,9 +1,8 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import geometry2 from "../img/geometry2.png";
 
 export default makeStyles({
   App: {
-    fontFamily: '"Coda", cursive',
     width: "100vw",
     height: "100vh",
     display: "flex",
