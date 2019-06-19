@@ -58,7 +58,11 @@ export default function Card(props) {
         { "animated rubberBand": props.isCardSolved },
         { "animated wobble": props.isCardMismatch }
       )}
-      onClick={props.isCardOpened || props.isCardMismatch ? null : handleClick}
+      onClick={
+        props.isCardOpened || props.isCardSolved || props.isCardMismatch
+          ? null
+          : handleClick
+      }
     >
       <i className={`fa fa-${props.cardFace}`} />
     </li>

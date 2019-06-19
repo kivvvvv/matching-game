@@ -74,14 +74,17 @@ export default function App() {
           moveCount={moveCount}
           isGameStarted={isGameStarted}
           onResetClick={handleResetClick}
+          onSetMatchCount={setMatchCount}
+          onSetMissMatchCount={setMissMatchCount}
+          onSetMoveCount={setMoveCount}
           onSetIsGameStarted={setIsGameStarted}
         />
         <CardBoard
           cards={cardFaces}
-          isGameStarted={isGameStarted}
           onSetMatchCount={setMatchCount}
           onSetMissMatchCount={setMissMatchCount}
           onSetMoveCount={setMoveCount}
+          isGameStarted={isGameStarted}
         />
       </main>
     </div>

@@ -103,12 +103,31 @@ export default function ScorePanel(props) {
   }, [props.matchCount, timestamp, props.stars, props.moveCount]);
 
   const handleClick = () => {
-    setActiveTimerMachine(false);
-
-    setTimeout(() => {
-      setActiveTimerMachine(true);
-      props.onResetClick();
-    }, 0);
+    Promise.resolve()
+      .then(() => {
+        return new Promise(resolve => {
+          Swal.fire({
+            title: "Restarting..",
+            timer: 1500,
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+              Swal.showLoading();
+            },
+            onClose: () => {
+              resolve();
+            }
+          });
+        });
+      })
+      .then(() => {
+        setActiveTimerMachine(false);
+        setTimestamp(null);
+        setIsIntro(true);
+        props.onSetMatchCount(0);
+        props.onSetMissMatchCount(0);
+        props.onSetMoveCount(0);
+        props.onSetIsGameStarted(false);
+      });
   };
 
   return (

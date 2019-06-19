@@ -39,6 +39,10 @@ export default function CardBoard(props) {
             setOpenedCardIndex(new Set());
           }, 5000);
         });
+    } else {
+      setOpenedCardIndex(new Set());
+      setSolvedCardIndex(new Set());
+      setMisMatchCardIndex(new Set());
     }
   }, [props.isGameStarted, props.cards]);
 
