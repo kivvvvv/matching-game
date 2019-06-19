@@ -25,15 +25,12 @@ export default function CardBoard(props) {
   const classes = useStyles();
 
   const [openedCardIndex, setOpenedCardIndex] = useState(new Set());
-  console.log("openedCardIndex: ", JSON.stringify(Array.from(openedCardIndex)));
   const [solvedCardIndex, setSolvedCardIndex] = useState(new Set());
-  console.log("solvedCardIndex: ", JSON.stringify(Array.from(solvedCardIndex)));
   const [mismatchCardIndex, setMisMatchCardIndex] = useState(new Set());
 
   const isCardMatch = cardIndex => {
     const currentCard = props.cards[cardIndex];
     const openedCard = props.cards[openedCardIndex.values().next().value];
-    console.log(currentCard, openedCard);
     return currentCard === openedCard;
   };
 
@@ -43,6 +40,8 @@ export default function CardBoard(props) {
     });
     // Check if at least one card is opened then do the match
     if (openedCardIndex.size === 1) {
+      props.onSetMoveCount(prevMoveCount => prevMoveCount + 1);
+
       if (isCardMatch(cardIndex)) {
         props.onSetMatchCount(prevMatchCount => prevMatchCount + 1);
 

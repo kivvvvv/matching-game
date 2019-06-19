@@ -45,7 +45,6 @@ export default function Card(props) {
   const classes = useStyles();
 
   const handleClick = () => {
-    console.log("click");
     props.onOpenCardClick(props.cardIndex);
   };
 

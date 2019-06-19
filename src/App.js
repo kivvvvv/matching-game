@@ -42,6 +42,7 @@ export default function App() {
   const [cards, setCards] = useState(cardFaces);
   const [matchCount, setMatchCount] = useState(0);
   const [mismatchCount, setMissMatchCount] = useState(0);
+  const [moveCount, setMoveCount] = useState(0);
 
   const rateStartScorePanel = () => {
     const goodStarIconClass = "fas fa-star";
@@ -60,11 +61,16 @@ export default function App() {
         <header className={classes.header}>
           <h1>Matching Game</h1>
         </header>
-        <ScorePanel stars={rateStartScorePanel()} />
+        <ScorePanel
+          stars={rateStartScorePanel()}
+          matchCount={matchCount}
+          moveCount={moveCount}
+        />
         <CardBoard
           cards={cards}
           onSetMatchCount={setMatchCount}
           onSetMissMatchCount={setMissMatchCount}
+          onSetMoveCount={setMoveCount}
         />
       </main>
     </div>
