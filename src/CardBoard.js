@@ -1,25 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-
 import Card from "./Card";
-
-const useStyles = makeStyles({
-  CardBoard: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-    maxWidth: "624px",
-    maxHeight: "624px",
-    margin: 0,
-    padding: "8px",
-    borderRadius: "10px",
-    boxShadow: "12px 15px 20px 0 rgba(46, 61, 73, 0.5)",
-    background: "linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%)"
-  }
-});
+import useStyles from "./styles/CardBoardStyles";
 
 export default function CardBoard(props) {
   const classes = useStyles();
@@ -47,9 +28,7 @@ export default function CardBoard(props) {
   }, [props.isGameStarted, props.cards]);
 
   const [openedCardIndex, setOpenedCardIndex] = useState(new Set());
-  console.log("openedCardIndex: ", JSON.stringify(Array.from(openedCardIndex)));
   const [solvedCardIndex, setSolvedCardIndex] = useState(new Set());
-  console.log("solvedCardIndex: ", JSON.stringify(Array.from(solvedCardIndex)));
   const [mismatchCardIndex, setMisMatchCardIndex] = useState(new Set());
 
   const isCardMatch = cardIndex => {
