@@ -5,7 +5,6 @@ import CardBoard from "./CardBoard";
 import cardFaces from "./cardFaces";
 
 import useStyles from "./styles/AppStyles";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import "animate.css/animate.css";
 
 export default function App() {
