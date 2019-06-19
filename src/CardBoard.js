@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Card from "./Card";
@@ -24,8 +24,28 @@ const useStyles = makeStyles({
 export default function CardBoard(props) {
   const classes = useStyles();
 
+  useEffect(() => {
+    if (props.isGameStarted) {
+      Promise.resolve()
+        .then(() => {
+          setOpenedCardIndex(
+            new Set(props.cards.map((card, cardIndex) => cardIndex))
+          );
+          setSolvedCardIndex(new Set());
+          setMisMatchCardIndex(new Set());
+        })
+        .then(() => {
+          setTimeout(() => {
+            setOpenedCardIndex(new Set());
+          }, 5000);
+        });
+    }
+  }, [props.isGameStarted, props.cards]);
+
   const [openedCardIndex, setOpenedCardIndex] = useState(new Set());
+  console.log("openedCardIndex: ", JSON.stringify(Array.from(openedCardIndex)));
   const [solvedCardIndex, setSolvedCardIndex] = useState(new Set());
+  console.log("solvedCardIndex: ", JSON.stringify(Array.from(solvedCardIndex)));
   const [mismatchCardIndex, setMisMatchCardIndex] = useState(new Set());
 
   const isCardMatch = cardIndex => {

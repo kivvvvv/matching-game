@@ -39,10 +39,10 @@ const useStyles = makeStyles({
 export default function App() {
   const classes = useStyles();
 
-  const [cards, setCards] = useState(cardFaces);
   const [matchCount, setMatchCount] = useState(0);
   const [mismatchCount, setMissMatchCount] = useState(0);
   const [moveCount, setMoveCount] = useState(0);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   const rateStartScorePanel = () => {
     const goodStarIconClass = "fas fa-star";
@@ -55,6 +55,13 @@ export default function App() {
     else return [goodStarIconClass, badStarIconClass, badStarIconClass];
   };
 
+  const handleResetClick = () => {
+    setMatchCount(0);
+    setMissMatchCount(0);
+    setMoveCount(0);
+    setIsGameStarted(false);
+  };
+
   return (
     <div className={classes.App}>
       <main className={classes.main}>
@@ -65,9 +72,13 @@ export default function App() {
           stars={rateStartScorePanel()}
           matchCount={matchCount}
           moveCount={moveCount}
+          isGameStarted={isGameStarted}
+          onResetClick={handleResetClick}
+          onSetIsGameStarted={setIsGameStarted}
         />
         <CardBoard
-          cards={cards}
+          cards={cardFaces}
+          isGameStarted={isGameStarted}
           onSetMatchCount={setMatchCount}
           onSetMissMatchCount={setMissMatchCount}
           onSetMoveCount={setMoveCount}

@@ -32,11 +32,13 @@ const useStyles = makeStyles({
       }
     },
     ".rubberBand": {
+      backgroundColor: "#02ccba",
       fontSize: "2rem",
-      backgroundColor: "#02ccba"
+      cursor: "default"
     },
     ".wobble": {
-      backgroundColor: "#f03434"
+      backgroundColor: "#f03434",
+      cursor: "default"
     }
   }
 });
