@@ -24,6 +24,7 @@ export default function ScorePanel(props) {
   const classes = useStyles({ isIntro: isIntro });
 
   const { isGameStarted, onSetIsGameStarted } = props;
+  console.log("isIntro: ", isIntro, ", isGameStarted: ", isGameStarted);
   useEffect(() => {
     if (!isGameStarted) {
       MySwal.fire({
@@ -128,24 +129,22 @@ export default function ScorePanel(props) {
           countdown={isIntro}
           started={activeTimerMachine}
           paused={false}
-          formatTimer={(time, ms) =>
-            moment.duration(ms, "milliseconds").format("h:mm:ss")
-          }
-          onStop={time => setTimestamp(time)}
+          formatTimer={(time, ms) => {
+            return moment.duration(ms, "milliseconds").format("h:mm:ss");
+          }}
+          onStop={time => {
+            console.log(
+              "In onStop | isIntro: ",
+              isIntro,
+              ", isGameStarted: ",
+              isGameStarted
+            );
+            if (isIntro || !isGameStarted) return;
+            setTimestamp(time);
+          }}
           onComplete={() => {
-            Promise.resolve()
-              .then(() => {
-                return new Promise(resolve => {
-                  setTimeout(() => {
-                    setActiveTimerMachine(false);
-                    setIsIntro(false);
-                    resolve();
-                  }, 0);
-                });
-              })
-              .then(() => {
-                setActiveTimerMachine(true);
-              });
+            console.log("onComplete FIRE!");
+            setIsIntro(false);
           }}
         />
       </div>
