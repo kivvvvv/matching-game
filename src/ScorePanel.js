@@ -3,6 +3,7 @@ import TimerMachine from "react-timer-machine";
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import useStyles from "./styles/ScorePanelStyles";
 import PogU from "./img/PogU.png";
@@ -10,19 +11,20 @@ import EZY from "./img/EZY.png";
 import FeelsWeirdMan from "./img/FeelsWeirdMan.png";
 
 momentDurationFormatSetup(moment);
+const MySwal = withReactContent(Swal);
 
 export default function ScorePanel(props) {
   const [activeTimerMachine, setActiveTimerMachine] = useState(false);
   const [timestamp, setTimestamp] = useState(null);
   const [isIntro, setIsIntro] = useState(true);
 
-  const endMatchCount = 8;
+  const endMatchCount = 2;
 
   const classes = useStyles({ isIntro: isIntro });
 
   useEffect(() => {
     if (!props.isGameStarted) {
-      Swal.fire({
+      MySwal.fire({
         type: "info",
         title: "Welcome!",
         text: "Try to memorize all the cards after pressing 'START'",
@@ -61,8 +63,14 @@ export default function ScorePanel(props) {
           break;
       }
 
-      Swal.fire({
-        title: props.stars.map(star => `<i class='${star}' />`).join(""),
+      MySwal.fire({
+        title: (
+          <>
+            {props.stars.map(star => (
+              <i className={star} />
+            ))}
+          </>
+        ),
         imageUrl: imageUrl,
         text: `Finished in ${props.moveCount} moves and ${timestamp.m * 60 +
           timestamp.s} seconds`
@@ -74,12 +82,12 @@ export default function ScorePanel(props) {
     Promise.resolve()
       .then(() => {
         return new Promise(resolve => {
-          Swal.fire({
+          MySwal.fire({
             title: "Restarting..",
             timer: 1500,
             allowOutsideClick: false,
             onBeforeOpen: () => {
-              Swal.showLoading();
+              MySwal.showLoading();
             },
             onClose: () => {
               resolve();
