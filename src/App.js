@@ -29,6 +29,7 @@ export default function App() {
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const classes = useStyles();
+
   library.add(
     faGem,
     faPaperPlane,

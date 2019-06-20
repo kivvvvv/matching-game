@@ -23,8 +23,9 @@ export default function ScorePanel(props) {
 
   const classes = useStyles({ isIntro: isIntro });
 
+  const { isGameStarted, onSetIsGameStarted } = props;
   useEffect(() => {
-    if (!props.isGameStarted) {
+    if (!isGameStarted) {
       MySwal.fire({
         type: "info",
         title: "Welcome!",
@@ -33,10 +34,10 @@ export default function ScorePanel(props) {
         allowOutsideClick: false
       }).then(() => {
         setActiveTimerMachine(true);
-        props.onSetIsGameStarted(true);
+        onSetIsGameStarted(true);
       });
     }
-  }, [props.isGameStarted]);
+  }, [isGameStarted, onSetIsGameStarted]);
 
   useEffect(() => {
     if (props.matchCount === endMatchCount) {
