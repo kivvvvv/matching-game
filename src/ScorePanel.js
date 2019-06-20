@@ -4,6 +4,7 @@ import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import useStyles from "./styles/ScorePanelStyles";
 import PogU from "./img/PogU.png";
@@ -18,7 +19,7 @@ export default function ScorePanel(props) {
   const [timestamp, setTimestamp] = useState(null);
   const [isIntro, setIsIntro] = useState(true);
 
-  const endMatchCount = 2;
+  const endMatchCount = 8;
 
   const classes = useStyles({ isIntro: isIntro });
 
@@ -47,7 +48,7 @@ export default function ScorePanel(props) {
     if (timestamp && props.matchCount === endMatchCount) {
       let imageUrl;
 
-      const goodStarIconClass = "fas fa-star";
+      const goodStarIconClass = "fas star";
       const countStar = props.stars.filter(star => star === goodStarIconClass)
         .length;
 
@@ -66,8 +67,11 @@ export default function ScorePanel(props) {
       MySwal.fire({
         title: (
           <>
-            {props.stars.map(star => (
-              <i className={star} />
+            {props.stars.map((star, starIndex) => (
+              <FontAwesomeIcon
+                key={starIndex}
+                icon={[star.split(" ")[0], star.split(" ")[1]]}
+              />
             ))}
           </>
         ),
@@ -107,7 +111,10 @@ export default function ScorePanel(props) {
     <div className={classes.ScorePanel}>
       <ul className={classes.star}>
         {props.stars.map((star, starIndex) => (
-          <i key={starIndex} className={star} />
+          <FontAwesomeIcon
+            key={starIndex}
+            icon={[star.split(" ")[0], star.split(" ")[1]]}
+          />
         ))}
       </ul>
       <div className={classes.moves}>
@@ -142,7 +149,7 @@ export default function ScorePanel(props) {
         />
       </div>
       <div className={classes.restart} onClick={handleClick}>
-        <i className="fa fa-redo" />
+        <FontAwesomeIcon icon="redo" />
       </div>
     </div>
   );

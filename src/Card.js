@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import useStyles from "./styles/CardStyles";
 
@@ -24,7 +25,7 @@ export default function Card(props) {
           : handleClick
       }
     >
-      <i className={`fa fa-${props.cardFace}`} />
+      <FontAwesomeIcon icon={props.cardFace} />
     </li>
   );
 }

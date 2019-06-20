@@ -1,4 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faGem,
+  faPaperPlane,
+  faAnchor,
+  faBolt,
+  faCube,
+  faLeaf,
+  faBicycle,
+  faBomb,
+  faStar,
+  faRedo
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 
 import ScorePanel from "./ScorePanel";
 import CardBoard from "./CardBoard";
@@ -8,13 +22,26 @@ import useStyles from "./styles/AppStyles";
 import "animate.css/animate.css";
 
 export default function App() {
-  const classes = useStyles();
-
   const [cards, setCards] = useState(cardFaces);
   const [matchCount, setMatchCount] = useState(0);
   const [mismatchCount, setMissMatchCount] = useState(0);
   const [moveCount, setMoveCount] = useState(0);
   const [isGameStarted, setIsGameStarted] = useState(false);
+
+  const classes = useStyles();
+  library.add(
+    faGem,
+    faPaperPlane,
+    faAnchor,
+    faBolt,
+    faCube,
+    faLeaf,
+    faBicycle,
+    faBomb,
+    faStar,
+    farStar,
+    faRedo
+  );
 
   useEffect(() => {
     setCards(prevCards => {
@@ -33,8 +60,8 @@ export default function App() {
   };
 
   const rateStartScorePanel = () => {
-    const goodStarIconClass = "fas fa-star";
-    const badStarIconClass = "far fa-star";
+    const goodStarIconClass = "fas star";
+    const badStarIconClass = "far star";
 
     if (mismatchCount < 5)
       return [goodStarIconClass, goodStarIconClass, goodStarIconClass];
