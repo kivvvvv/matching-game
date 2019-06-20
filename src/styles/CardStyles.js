@@ -25,7 +25,7 @@ export default makeStyles({
       fontSize: "2rem",
       backgroundColor: "#02b3e4",
       cursor: "default",
-      "& i": {
+      "& svg": {
         transform: "rotateY(180deg)"
       }
     },
@@ -36,6 +36,7 @@ export default makeStyles({
     },
     ".wobble": {
       backgroundColor: "#f03434",
+      fontSize: "2rem",
       cursor: "default"
     }
   }
