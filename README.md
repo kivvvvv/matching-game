@@ -88,9 +88,10 @@ Compiled successfully!
 The detail can be found here: [create-react-app “Failed to compile” on start up](https://stackoverflow.com/questions/56644607)
 
 There is an another issue when you click opening card too fast:
+
 ![issue](issues/2019-06-20_14-51-39.gif)
 
-This happens by design, because at first, in my opinion to prevent user from clicking too fast in this game might not be good experience. But, in the end, I end up with this issue. 
+What happen here is by design, because at first, in my opinion to prevent user from clicking too fast in this game might not be good experience. But, in the end, I end up with this issue. 
 
 It cannot be easily solved, but the first step is to untangle app state + bundle relevant state operations, which will require some more time on refactoring. Anyway, that is what is coming next :)
 
